@@ -1,0 +1,23 @@
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rpassword = {}
+reqwest = { features = ["blocking","multipart"] }
+serde = { features = ["derive"] }
+serde_json = {}
+sha256 = {}
+rsa ={}
+rand = {}
+chrono = {}
+hex = {}
+tokio = { features = ["full","macros", "rt-multi-thread"] }
+tokio-util = {  features = ["codec"] }
+queue={}
+[[bin]]
+name = "client"
+path = "src/client.rs"

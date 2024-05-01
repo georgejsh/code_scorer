@@ -1,0 +1,13 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "user" (`id` TEXT PRIMARY KEY, `password` TEXT);
+INSERT INTO user VALUES('root','58d9bda9dfa633b0e3aee65c91eed9d68ed87a7a459c05c539b2a9627534642b');
+CREATE TABLE IF NOT EXISTS "enroll" (`user_id` TEXT REFERENCES `user`(`id`), `course_id` TEXT REFERENCES `courses`(`id`), `isadmin` TEXT DEFAULT (false));
+CREATE TABLE IF NOT EXISTS "courses" (`id` TEXT PRIMARY KEY, `name` TEXT, `year` TEXT);
+CREATE TABLE IF NOT EXISTS "selection" (`user_id` TEXT REFERENCES `user`(`id`), `course_id` TEXT REFERENCES `courses`(`id`), `problem_id` TEXT REFERENCES `problem`(`id`));
+CREATE TABLE IF NOT EXISTS "problem" (`id` TEXT PRIMARY KEY, title TEXT, `desc` TEXT, `active` TEXT, course_id TEXT REFERENCES `courses`(`id`), checker DEFAULT "EQUAL");
+CREATE TABLE IF NOT EXISTS "tc" (`id` INTEGER PRIMARY KEY AUTOINCREMENT,`input` TEXT, `output` TEXT, `sample` TEXT DEFAULT (true), problem_id TEXT REFERENCES `problem`(`id`));
+CREATE TABLE IF NOT EXISTS "tc_list" ( `id` INTEGER PRIMARY KEY AUTOINCREMENT,`user_id` TEXT REFERENCES `user`(`id`), `prob_id` TEXT REFERENCES `problem`(`id`),`sample` TEXT,`tc_id_list` TEXT,  `creation` DATETIME DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS "submit" ( `id` INTEGER PRIMARY KEY AUTOINCREMENT,`tc_id` TEXT REFERENCES `tc_list`(`id`),`score` INTEGER);
+DELETE FROM sqlite_sequence;
+COMMIT;
